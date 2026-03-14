@@ -33,7 +33,7 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2 font-bold text-lg">
               <ShoppingBag className="h-6 w-6 text-primary" />
-              <span>Marketplace Core</span>
+              <span>Marketplace UMKM.id</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Platform marketplace terpercaya untuk jual beli produk berkualitas dengan harga terbaik.
@@ -41,7 +41,7 @@ export function Footer() {
             <div className="space-y-2 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
-                <span>support@marketplace.id</span>
+                <span>support@umkm.id</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4" />
@@ -121,7 +121,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="mt-12 pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Marketplace Core. All rights reserved.
+            © {new Date().getFullYear()} Marketplace UMKM.id. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground">
