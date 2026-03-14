@@ -85,11 +85,7 @@ export function SponsorLogos() {
             <h3 className="text-lg font-semibold text-foreground mb-1">
               Didukung Oleh
             </h3>
-            <p className="text-sm text-muted-foreground">
-              Partner BUMN dan Perusahaan Terpercaya
-            </p>
           </div>
-          <div className="flex gap-6 justify-center">
             {[1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="w-32 h-16 bg-muted animate-pulse rounded-lg" />
             ))}
@@ -106,9 +102,6 @@ export function SponsorLogos() {
           <h3 className="text-lg font-semibold text-foreground mb-1">
             Didukung Oleh
           </h3>
-          <p className="text-sm text-muted-foreground">
-            Partner BUMN dan Perusahaan Terpercaya
-          </p>
         </div>
 
         {/* Carousel Container */}
