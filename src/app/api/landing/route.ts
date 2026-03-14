@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseClient } from '@/lib/supabase-client';
 
-// Cache 60 detik untuk landing page
-export const revalidate = 60;
+// Cache 5 menit untuk landing page - reduce database load
+export const revalidate = 300;
 
 /**
  * Transform snake_case to camelCase for landing data
@@ -107,16 +107,18 @@ export async function GET() {
       console.warn('[LANDING_API] RPC failed, falling back to individual queries:', rpcError.message);
       
       // Fallback to individual queries if RPC doesn't exist yet
+      // Optimized: minimal select, proper filters
       const { data: categories } = await supabase
         .from('categories')
-        .select('id, name, slug, icon_url, image_banner_url, listing_count')
+        .select('id, name, slug, icon_url, image_banner_url')
         .eq('is_active', true)
         .is('parent_id', null)
-        .order('sort_order', { ascending: true });
+        .order('sort_order', { ascending: true })
+        .limit(12);
 
       const { data: featuredListings } = await supabase
         .from('listings')
-        .select('id, title, slug, price, price_type, condition, city, province, view_count, favorite_count, is_featured, created_at')
+        .select('id, title, slug, price, price_type, condition, city, province, view_count, favorite_count, is_featured, created_at, image_url')
         .eq('status', 'active')
         .eq('is_featured', true)
         .order('created_at', { ascending: false })
@@ -124,14 +126,14 @@ export async function GET() {
 
       const { data: latestListings } = await supabase
         .from('listings')
-        .select('id, title, slug, price, price_type, condition, city, province, view_count, favorite_count, is_featured, created_at')
+        .select('id, title, slug, price, price_type, condition, city, province, view_count, favorite_count, is_featured, created_at, image_url')
         .eq('status', 'active')
         .order('created_at', { ascending: false })
         .limit(12);
 
       const { data: popularListings } = await supabase
         .from('listings')
-        .select('id, title, slug, price, price_type, condition, city, province, view_count, favorite_count, is_featured, created_at')
+        .select('id, title, slug, price, price_type, condition, city, province, view_count, favorite_count, is_featured, created_at, image_url')
         .eq('status', 'active')
         .order('view_count', { ascending: false })
         .limit(12);
@@ -158,7 +160,7 @@ export async function GET() {
       logPerformanceMetrics(implementation, duration, 5, 0);
 
       return NextResponse.json(data, {
-        headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' },
+        headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
       });
     }
 
@@ -180,7 +182,7 @@ export async function GET() {
 
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
       },
     });
   } catch (error) {
