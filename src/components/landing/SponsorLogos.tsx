@@ -86,6 +86,7 @@ export function SponsorLogos() {
               Didukung Oleh
             </h3>
           </div>
+          <div className="flex gap-4 justify-center">
             {[1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="w-32 h-16 bg-muted animate-pulse rounded-lg" />
             ))}
@@ -137,12 +138,6 @@ export function SponsorLogos() {
           </p>
         </div>
       </div>
-
-      <style jsx>{`
-        div::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   );
 }
